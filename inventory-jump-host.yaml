@@ -1,0 +1,34 @@
+---
+k3s_cluster:
+  children:
+    server:
+      hosts:
+        ip-10-0-21-226:   # private IP of your control-plane node
+          ansible_host: 10.0.21.226
+          ansible_user: ubuntu
+          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/boss-key.pem
+    agent:
+      hosts:
+        ip-10-0-20-226:   # private IP of worker node 1
+          ansible_host: 10.0.20.226
+          ansible_user: ubuntu
+          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/boss-key.pem
+        ip-10-0-31-172:   # private IP of worker node 2
+          ansible_host: 10.0.31.172
+          ansible_user: ubuntu
+          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/boss-key.pem
+
+  vars:
+    ansible_port: 22
+    ansible_user: ubuntu
+    bastion_host_public_ip: 18.205.98.145
+
+    # This tells Ansible to use the bastion host for SSH proxying
+    ansible_ssh_common_args: >-
+      -o ProxyCommand="ssh -i /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/boss-key.pem
+      -W %h:%p -q ubuntu@{{ bastion_host_public_ip }}"
+
+    # k3s settings
+    k3s_version: v1.30.2+k3s1
+    token: "changeme!"
+    api_endpoint: "{{ hostvars[groups['server'][0]]['ansible_host'] | default(groups['server'][0]) }}"
