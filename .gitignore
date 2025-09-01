@@ -3,4 +3,5 @@ venv
 .vscode
 .vagrant
 inventory.yml
+inventory-jump-host.yml
 playbook/debug.yml
