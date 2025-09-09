@@ -90,3 +90,12 @@
     daemon_reload: "{{ true if k3s_agent_service.changed else false }}"
     state: "{{ 'restarted' if (k3s_agent_service.changed or _agent_config_result.changed) else 'started' }}"
     enabled: true
+
+- name: Label k3s agent as Worker
+  delegate_to: "{{ groups['server'][0] }}"   # run kubectl from the control-plane
+  ansible.builtin.command: >
+    kubectl label node {{ inventory_hostname }}
+    node-role.kubernetes.io/worker=worker --overwrite
+  register: worker_label
+  changed_when: worker_label.rc == 0
+

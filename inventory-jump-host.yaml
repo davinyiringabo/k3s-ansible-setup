@@ -3,29 +3,37 @@ k3s_cluster:
   children:
     server:
       hosts:
-        ip-10.0.1.54:   # private IP of your control-plane node
-          ansible_host: 10.0.1.54
+        ip-172.32.1.115:   # private IP of your control-plane node
+          ansible_host: 172.32.1.115
           ansible_user: ubuntu
-          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/boss-staging-key.pem
+          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/wiredin-devops.pem
     agent:
       hosts:
-        ip-10.0.0.14:   # private IP of worker node 1
-          ansible_host: 10.0.0.14
+        ip-172.32.1.22:   # private IP of worker node 1
+          ansible_host: 172.32.1.22
           ansible_user: ubuntu
-          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/boss-staging-key.pem
-        ip-10.0.0.171:   # private IP of worker node 2
-          ansible_host: 10.0.0.171
+          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/wiredin-devops.pem
+        ip-172.32.1.203:   # private IP of worker node 2
+          ansible_host: 172.32.1.203
           ansible_user: ubuntu
-          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/boss-staging-key.pem
+          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/wiredin-devops.pem
+        ip-172.32.1.206:   # private IP of worker node 3
+          ansible_host: 172.32.1.206
+          ansible_user: ubuntu
+          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/wiredin-devops.pem
+        ip-172.32.2.143:   # private IP of worker node 4 (Public subnet)
+          ansible_host: 172.32.2.143
+          ansible_user: ubuntu
+          ansible_ssh_private_key_file: /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/wiredin-devops.pem
 
   vars:
     ansible_port: 22
     ansible_user: ubuntu
-    bastion_host_public_ip: 18.205.98.145
+    bastion_host_public_ip: 16.171.192.21
 
     # This tells Ansible to use the bastion host for SSH proxying
     ansible_ssh_common_args: >-
-      -o ProxyCommand="ssh -i /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/boss-staging-key.pem
+      -o ProxyCommand="ssh -i /Users/davidnyiringabo/Documents/DevOps-Wkspc/Keys/wiredin-devops.pem
       -W %h:%p -q ubuntu@{{ bastion_host_public_ip }}"
 
     # k3s settings
